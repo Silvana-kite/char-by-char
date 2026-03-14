@@ -1,11 +1,14 @@
 {
   "name": "char-by-char",
-  "displayName": "char-by-char",
+  "displayName": "Char By Char",
   "description": "一款专为视频录制设计的 VS Code 插件，无需手动敲写代码，即可通过“文件读取 + 逐字模拟输入”高效录制编程教学、文案创作等过程视频。",
   "version": "0.0.1",
-  "publisher": "local",
+  "publisher": "Silvanacode16",
+  "icon": "logo.png",
+  "repository": "https://github.com/Silvana-kite/char-by-char.git",
+  "pricing": "Free",
   "engines": {
-    "vscode": "^1.85.0"
+    "vscode": "^1.110.0"
   },
   "categories": [
     "Other"
