@@ -1,0 +1,134 @@
+{
+  "name": "char-by-char",
+  "displayName": "char-by-char",
+  "description": "一款专为视频录制设计的 VS Code 插件，无需手动敲写代码，即可通过“文件读取 + 逐字模拟输入”高效录制编程教学、文案创作等过程视频。",
+  "version": "0.0.1",
+  "publisher": "local",
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "onCommand:char-by-char.startDemo",
+    "onCommand:char-by-char.clearActiveEditor",
+    "onCommand:char-by-char.pauseDemo",
+    "onCommand:char-by-char.resumeDemo",
+    "onCommand:char-by-char.cancelDemo"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "char-by-char.startDemo",
+        "title": "从文件开始逐字演示",
+        "category": "char-by-char",
+        "icon": "$(play)"
+      },
+      {
+        "command": "char-by-char.clearActiveEditor",
+        "title": "清空当前活动编辑器",
+        "category": "char-by-char",
+        "icon": "$(trash)"
+      },
+      {
+        "command": "char-by-char.pauseDemo",
+        "title": "暂停逐字演示",
+        "category": "char-by-char",
+        "icon": "$(debug-pause)"
+      },
+      {
+        "command": "char-by-char.resumeDemo",
+        "title": "继续逐字演示",
+        "category": "char-by-char",
+        "icon": "$(debug-continue)"
+      },
+      {
+        "command": "char-by-char.cancelDemo",
+        "title": "取消逐字演示",
+        "category": "char-by-char",
+        "icon": "$(close)"
+      }
+    ],
+    "menus": {
+      "editor/title": [
+        {
+          "command": "char-by-char.startDemo",
+          "when": "editorTextFocus && !charByChar.isRunning && !charByChar.isPaused",
+          "group": "navigation@1"
+        },
+        {
+          "command": "char-by-char.pauseDemo",
+          "when": "editorTextFocus && charByChar.isRunning",
+          "group": "navigation@2"
+        },
+        {
+          "command": "char-by-char.resumeDemo",
+          "when": "editorTextFocus && charByChar.isPaused",
+          "group": "navigation@2"
+        },
+        {
+          "command": "char-by-char.cancelDemo",
+          "when": "editorTextFocus && (charByChar.isRunning || charByChar.isPaused)",
+          "group": "navigation@3"
+        },
+        {
+          "command": "char-by-char.clearActiveEditor",
+          "when": "editorTextFocus",
+          "group": "navigation@4"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "char-by-char",
+      "properties": {
+        "charByChar.defaultDelayMs": {
+          "type": "number",
+          "default": 120,
+          "minimum": 50,
+          "maximum": 500,
+          "description": "默认逐字输入速度，单位为毫秒 / 字符。"
+        },
+        "charByChar.clearBeforeStart": {
+          "type": "boolean",
+          "default": true,
+          "description": "开始逐字演示前，是否自动清空当前活动编辑器内容。"
+        },
+        "charByChar.formatSourceBeforeTyping": {
+          "type": "boolean",
+          "default": true,
+          "description": "开始逐字演示前，先尝试对源文件执行一次格式化，再按格式化后的内容写入目标编辑器。"
+        },
+        "charByChar.formatOnType": {
+          "type": "boolean",
+          "default": false,
+          "description": "输入时尝试触发编辑器的按键格式化。默认关闭；如果源文件本身已有缩进，开启后可能出现重复缩进。"
+        },
+        "charByChar.formatAfterFinish": {
+          "type": "boolean",
+          "default": true,
+          "description": "逐字演示完成后，尝试再执行一次整份文档格式化。"
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "pnpm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "pretest": "pnpm run compile && pnpm run lint",
+    "lint": "eslint src",
+    "test": "vscode-test"
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.110.0",
+    "@types/mocha": "^10.0.10",
+    "@types/node": "22.x",
+    "typescript-eslint": "^8.56.1",
+    "eslint": "^9.39.3",
+    "typescript": "^5.9.3",
+    "@vscode/test-cli": "^0.0.12",
+    "@vscode/test-electron": "^2.5.2"
+  }
+}
